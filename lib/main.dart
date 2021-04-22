@@ -1,9 +1,24 @@
+import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
+import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
+import 'package:socialdoormobile/amplifyconfiguration.dart';
 
 import 'presentation/screens/splash_screen.dart';
 
-void main() {
+Future<void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await configureAmlipfy();
   runApp(MyApp());
+}
+
+Future<void> configureAmlipfy() async {
+  Amplify.addPlugins([AmplifyAuthCognito()]);
+
+  try {
+    await Amplify.configure(amplifyconfig);
+  } catch (e) {
+    print('amplify is already configures');
+  }
 }
 
 class MyApp extends StatelessWidget {
