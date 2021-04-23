@@ -32,11 +32,10 @@ class _SignInScreenState extends State<SignInScreen> {
     return LoginFresh(
       pathLogo: TypeLogo.blueLogo,
       textColor: Colors.black,
-      backgroundColor: Colors.teal,
+      backgroundColor: Colors.black,
       typeLoginModel: [
         LoginFreshTypeLoginModel(callFunction: () {}, logo: TypeLogo.facebook),
         LoginFreshTypeLoginModel(callFunction: () {}, logo: TypeLogo.google),
-        LoginFreshTypeLoginModel(callFunction: () {}, logo: TypeLogo.apple),
         LoginFreshTypeLoginModel(
             callFunction: onClickFun, logo: TypeLogo.userPassword)
       ],
@@ -48,18 +47,7 @@ class _SignInScreenState extends State<SignInScreen> {
         textColor: Colors.black,
       ),
       isSignUp: true,
-      widgetSignUp: SignUpScreen(
-          backgroundColor: Colors.teal,
-          logo: TypeLogo.blueLogo,
-          textColor: Colors.black,
-          funSignUp: () {},
-          // isFooter: true,
-          widgetFooter: LoginFreshFooter(
-            funFooterLogin: () {},
-            logo: TypeLogo.apple,
-            text: 'Powered By',
-            textColor: Colors.black,
-          )),
+      widgetSignUp: SignUpScreen(),
       // isFooter: true
     );
   }

@@ -18,7 +18,7 @@ class LoginWithUserEmailScreen extends StatefulWidget {
 
   final Function callLogin;
 
-  final LoginFreshWords loginFreshWords;
+  final ConstantWords loginFreshWords;
 
   LoginWithUserEmailScreen(
       {@required this.callLogin,
@@ -51,12 +51,12 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
 
   final bool isLoginRequest = false;
 
-  LoginFreshWords loginFreshWords;
+  ConstantWords loginFreshWords;
 
   @override
   Widget build(BuildContext context) {
     loginFreshWords = (widget.loginFreshWords == null)
-        ? LoginFreshWords()
+        ? ConstantWords()
         : widget.loginFreshWords;
 
     return Scaffold(

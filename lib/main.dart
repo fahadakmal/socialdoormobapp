@@ -17,7 +17,7 @@ Future<void> configureAmlipfy() async {
   try {
     await Amplify.configure(amplifyconfig);
   } catch (e) {
-    print('amplify is already configures');
+    print('amplify is already configured');
   }
 }
 
@@ -26,6 +26,7 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       title: 'Flutter Demo',
       theme: ThemeData(
         // This is the theme of your application.

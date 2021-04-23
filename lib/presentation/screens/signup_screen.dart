@@ -5,29 +5,6 @@ import 'package:socialdoormobile/data/models/sign_up_model.dart';
 import '../widgets/login_fresh_loading.dart';
 
 class SignUpScreen extends StatefulWidget {
-  final Color backgroundColor;
-
-  final Color textColor;
-
-  final LoginFreshWords loginFreshWords;
-
-  final Function funSignUp;
-
-  final bool isFooter;
-
-  final Widget widgetFooter;
-
-  final String logo;
-
-  SignUpScreen(
-      {@required this.funSignUp,
-      @required this.logo,
-      this.isFooter,
-      this.widgetFooter,
-      this.textColor,
-      this.loginFreshWords,
-      this.backgroundColor});
-
   @override
   _SignUpScreenState createState() => _SignUpScreenState();
 }
@@ -39,21 +16,20 @@ class _SignUpScreenState extends State<SignUpScreen> {
 
   bool isNoVisiblePassword = true;
 
-  LoginFreshWords loginFreshWords;
+  ConstantWords constantWords;
 
   @override
   Widget build(BuildContext context) {
-    loginFreshWords = (widget.loginFreshWords == null)
-        ? LoginFreshWords()
-        : widget.loginFreshWords;
+    constantWords = ConstantWords();
+
     return Scaffold(
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: widget.backgroundColor ?? Color(0xFFE7004C),
+          backgroundColor: Colors.black,
           centerTitle: true,
           elevation: 0,
           title: Text(
-            this.loginFreshWords.signUp,
+            this.constantWords.signUp,
             maxLines: 1,
             overflow: TextOverflow.ellipsis,
             style: TextStyle(
@@ -66,7 +42,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width,
-              color: widget.backgroundColor ?? Color(0xFFE7004C),
+              color: Colors.black,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -79,8 +55,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             horizontal: 50, vertical: 3),
                         child: Hero(
                           tag: 'hero-login',
-                          child: Image.asset(
-                            widget.logo,
+                          child: Image.network(
+                            'https://images.pexels.com/photos/2034851/pexels-photo-2034851.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -130,9 +106,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           this.signUpModel.email = value;
                         },
                         keyboardType: TextInputType.emailAddress,
-                        style: TextStyle(
-                            color: widget.textColor ?? Color(0xFF0F2E48),
-                            fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
                         autofocus: false,
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
@@ -148,10 +123,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFAAB5C3))),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                    color: widget.backgroundColor ??
-                                        Color(0xFFE7004C))),
-                            hintText: this.loginFreshWords.hintLoginUser)),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFE7004C))),
+                            hintText: this.constantWords.hintLoginUser)),
                   ),
                   Padding(
                     padding:
@@ -161,9 +135,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           this.signUpModel.name = value;
                         },
                         keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            color: widget.textColor ?? Color(0xFF0F2E48),
-                            fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
                         autofocus: false,
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
@@ -179,10 +152,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFAAB5C3))),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                    color: widget.backgroundColor ??
-                                        Color(0xFFE7004C))),
-                            hintText: this.loginFreshWords.hintName)),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFE7004C))),
+                            hintText: this.constantWords.hintName)),
                   ),
                   Padding(
                     padding:
@@ -192,9 +164,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           this.signUpModel.surname = value;
                         },
                         keyboardType: TextInputType.text,
-                        style: TextStyle(
-                            color: widget.textColor ?? Color(0xFF0F2E48),
-                            fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
                         autofocus: false,
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
@@ -210,10 +181,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFAAB5C3))),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                    color: widget.backgroundColor ??
-                                        Color(0xFFE7004C))),
-                            hintText: this.loginFreshWords.hintSurname)),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFE7004C))),
+                            hintText: this.constantWords.hintSurname)),
                   ),
                   Padding(
                     padding:
@@ -223,9 +193,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           this.signUpModel.password = value;
                         },
                         obscureText: this.isNoVisiblePassword,
-                        style: TextStyle(
-                            color: widget.textColor ?? Color(0xFF0F2E48),
-                            fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
                         decoration: InputDecoration(
                             suffixIcon: GestureDetector(
                                 onTap: () {
@@ -266,10 +235,9 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFAAB5C3))),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                    color: widget.backgroundColor ??
-                                        Color(0xFFE7004C))),
-                            hintText: this.loginFreshWords.hintLoginPassword)),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFE7004C))),
+                            hintText: this.constantWords.hintLoginPassword)),
                   ),
                   Padding(
                     padding:
@@ -279,9 +247,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           this.signUpModel.repeatPassword = value;
                         },
                         obscureText: this.isNoVisiblePassword,
-                        style: TextStyle(
-                            color: widget.textColor ?? Color(0xFF0F2E48),
-                            fontSize: 14),
+                        style:
+                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
                         decoration: InputDecoration(
                             enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
@@ -296,11 +263,10 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFAAB5C3))),
                             border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(15),
-                                borderSide: BorderSide(
-                                    color: widget.backgroundColor ??
-                                        Color(0xFFE7004C))),
+                                borderSide:
+                                    BorderSide(color: Color(0xFFE7004C))),
                             hintText:
-                                this.loginFreshWords.hintSignUpRepeatPassword)),
+                                this.constantWords.hintSignUpRepeatPassword)),
                   )
                 ],
               ),
@@ -310,17 +276,14 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ? Padding(
                   padding: const EdgeInsets.all(8.0),
                   child: LoadingLoginFresh(
-                    textLoading: this.loginFreshWords.textLoading,
-                    colorText: widget.textColor,
-                    backgroundColor: widget.backgroundColor,
+                    textLoading: this.constantWords.textLoading,
+                    colorText: Color(0xFF0F2E48),
+                    backgroundColor: Color(0xFFE7004C),
                     elevation: 0,
                   ),
                 )
               : GestureDetector(
-                  onTap: () {
-                    widget.funSignUp(
-                        context, this.setIsRequest, this.signUpModel);
-                  },
+                  onTap: () {},
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.07,
                       width: MediaQuery.of(context).size.width * 0.7,
@@ -329,12 +292,12 @@ class _SignUpScreenState extends State<SignUpScreen> {
                           shape: RoundedRectangleBorder(
                             borderRadius: BorderRadius.circular(40),
                           ),
-                          color: widget.backgroundColor ?? Color(0xFFE7004C),
+                          color: Colors.black,
                           child: Padding(
                             padding: const EdgeInsets.symmetric(horizontal: 10),
                             child: Center(
                                 child: Text(
-                              this.loginFreshWords.signUp,
+                              this.constantWords.signUp,
                               style: TextStyle(
                                   color: Colors.white,
                                   fontSize: 15,
@@ -342,9 +305,6 @@ class _SignUpScreenState extends State<SignUpScreen> {
                             )),
                           ))),
                 ),
-          (widget.isFooter == null || widget.isFooter == false)
-              ? SizedBox()
-              : widget.widgetFooter
         ]);
   }
 

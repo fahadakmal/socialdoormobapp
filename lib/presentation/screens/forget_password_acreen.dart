@@ -8,7 +8,7 @@ class ForgetPasswordScreen extends StatefulWidget {
 
   final Color textColor;
 
-  final LoginFreshWords loginFreshWords;
+  final ConstantWords loginFreshWords;
 
   final String logo;
 
@@ -37,12 +37,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
   bool isRequest = false;
 
   final focus = FocusNode();
-  LoginFreshWords loginFreshWords;
+  ConstantWords loginFreshWords;
 
   @override
   Widget build(BuildContext context) {
     loginFreshWords = (widget.loginFreshWords == null)
-        ? LoginFreshWords()
+        ? ConstantWords()
         : widget.loginFreshWords;
     return Scaffold(
       appBar: AppBar(

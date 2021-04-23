@@ -1,4 +1,4 @@
-class LoginFreshWords {
+class ConstantWords {
   String loginWith;
   String login;
   String exploreApp;
@@ -15,7 +15,7 @@ class LoginFreshWords {
 
   String messageRecoverPassword;
 
-  LoginFreshWords(
+  ConstantWords(
       {this.loginWith = 'Login With',
       this.hintName = 'Name',
       this.hintSurname = 'Surname',

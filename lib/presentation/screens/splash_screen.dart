@@ -21,7 +21,8 @@ class _SplashScreenState extends State<SplashScreen> {
   void initState() {
     super.initState();
 
-    _videoPlayerController = VideoPlayerController.asset(Videos.splashVideo);
+    _videoPlayerController = VideoPlayerController.asset(Videos.splashVideo)
+      ..initialize();
     started();
     // _videoPlayerController.addListener(() {
     //   if (startedPlaying && !_videoPlayerController.value.isPlaying) {
@@ -50,7 +51,6 @@ class _SplashScreenState extends State<SplashScreen> {
   //   return true;
   // }
   Future<void> started() async {
-    await _videoPlayerController.initialize();
     await _videoPlayerController.play();
     startedPlaying = true;
     // return true;

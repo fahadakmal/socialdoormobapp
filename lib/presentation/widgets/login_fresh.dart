@@ -38,7 +38,7 @@ class LoginFresh extends StatefulWidget {
   final Widget widgetSignUp;
 
   //model of key words used in login
-  LoginFreshWords keyWord;
+  ConstantWords keyWord;
 
   LoginFresh(
       {@required this.pathLogo,
@@ -61,7 +61,7 @@ class LoginFresh extends StatefulWidget {
 class _LoginFreshState extends State<LoginFresh> {
   @override
   Widget build(BuildContext context) {
-    widget.keyWord = widget.keyWord ?? LoginFreshWords();
+    widget.keyWord = widget.keyWord ?? ConstantWords();
 
     return Stack(
       children: [
@@ -71,12 +71,10 @@ class _LoginFreshState extends State<LoginFresh> {
             alignment: Alignment.topCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.45,
-              width: MediaQuery.of(context).size.width * 0.60,
-              child: Center(
-                child: Image.asset(
-                  widget.pathLogo,
-                  fit: BoxFit.contain,
-                ),
+              width: MediaQuery.of(context).size.width,
+              child: Image.network(
+                'https://images.pexels.com/photos/1185440/pexels-photo-1185440.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
+                fit: BoxFit.cover,
               ),
             ),
           ),
