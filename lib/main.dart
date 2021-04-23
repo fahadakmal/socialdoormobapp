@@ -1,11 +1,17 @@
 import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socialdoormobile/amplifyconfiguration.dart';
+import 'package:socialdoormobile/cubit/signup_cubit.dart';
+import 'package:socialdoormobile/data/network_service.dart';
+import 'package:socialdoormobile/data/repositery.dart';
+import 'package:socialdoormobile/presentation/router/app_router.dart';
 
 import 'presentation/screens/splash_screen.dart';
 
 Future<void> main() async {
+  final Repositery repositery = Repositery(networkService: NetworkService());
   WidgetsFlutterBinding.ensureInitialized();
   await configureAmlipfy();
   runApp(MyApp());
@@ -22,26 +28,35 @@ Future<void> configureAmlipfy() async {
 }
 
 class MyApp extends StatelessWidget {
-  // This widget is the root of your application.
+  final AppRouter appRouter;
+
+  final Repositery repositery;
+
+  const MyApp({
+    Key key,
+    this.appRouter,
+    this.repositery,
+  }) : super(key: key);
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      debugShowCheckedModeBanner: false,
-      title: 'Flutter Demo',
-      theme: ThemeData(
-        // This is the theme of your application.
-        //
-        // Try running your application with "flutter run". You'll see the
-        // application has a blue toolbar. Then, without quitting the app, try
-        // changing the primarySwatch below to Colors.green and then invoke
-        // "hot reload" (press "r" in the console where you ran "flutter run",
-        // or simply save your changes to "hot reload" in a Flutter IDE).
-        // Notice that the counter didn't reset back to zero; the application
-        // is not restarted.
-        primarySwatch: Colors.blue,
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<SignupCubit>(
+          create: (BuildContext context) => SignupCubit(
+            repositery: repositery,
+          ),
+        )
+      ],
+      child: MaterialApp(
+        onGenerateRoute: appRouter.onGenerateRoute,
+        debugShowCheckedModeBanner: false,
+        title: 'Flutter Demo',
+        theme: ThemeData(
+          primarySwatch: Colors.blue,
+        ),
+        home: SplashScreen(),
+        // home: MyHomePage(title: 'Flutter Demo Home Page'),
       ),
-      home: SplashScreen(),
-      // home: MyHomePage(title: 'Flutter Demo Home Page'),
     );
   }
 }

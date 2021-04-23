@@ -9,4 +9,6 @@ class Images {
   static const String cycling = "assets/images/cycling.jpg";
   static const String skiing = "assets/images/skiing.png";
   static const String formBackground = "assets/images/formImage.jpeg";
+  static const String signUpBackgroudImage =
+      'https://images.pexels.com/photos/2034851/pexels-photo-2034851.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500';
 }

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:socialdoormobile/constants/images.dart';
 import 'package:socialdoormobile/constants/language.dart';
 import 'package:socialdoormobile/data/models/sign_up_model.dart';
 
@@ -12,8 +13,6 @@ class SignUpScreen extends StatefulWidget {
 class _SignUpScreenState extends State<SignUpScreen> {
   SignUpModel signUpModel = SignUpModel();
 
-  bool isRequest = false;
-
   bool isNoVisiblePassword = true;
 
   ConstantWords constantWords;
@@ -22,67 +21,57 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     constantWords = ConstantWords();
 
-    return Scaffold(
-      appBar: AppBar(
-          iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: Colors.black,
-          centerTitle: true,
-          elevation: 0,
-          title: Text(
-            this.constantWords.signUp,
-            maxLines: 1,
-            overflow: TextOverflow.ellipsis,
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
-          )),
-      body: Stack(
-        children: <Widget>[
-          Align(
-            alignment: Alignment.topCenter,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width,
-              color: Colors.black,
-              child: Column(
-                mainAxisSize: MainAxisSize.max,
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                crossAxisAlignment: CrossAxisAlignment.center,
-                children: <Widget>[
-                  Column(
-                    children: [
-                      Padding(
-                        padding: const EdgeInsets.symmetric(
-                            horizontal: 50, vertical: 3),
-                        child: Hero(
-                          tag: 'hero-login',
-                          child: Image.network(
-                            'https://images.pexels.com/photos/2034851/pexels-photo-2034851.jpeg?auto=compress&cs=tinysrgb&dpr=2&w=500',
-                            fit: BoxFit.contain,
-                          ),
+    return Scaffold(appBar: _signUpAppBar(), body: _signUpBody());
+  }
+
+  Widget _signUpBody() {
+    return Stack(
+      children: <Widget>[
+        Align(
+          alignment: Alignment.topCenter,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: MediaQuery.of(context).size.width,
+            color: Colors.black,
+            child: Column(
+              mainAxisSize: MainAxisSize.max,
+              mainAxisAlignment: MainAxisAlignment.spaceBetween,
+              crossAxisAlignment: CrossAxisAlignment.center,
+              children: <Widget>[
+                Column(
+                  children: [
+                    Padding(
+                      padding: const EdgeInsets.symmetric(
+                          horizontal: 50, vertical: 3),
+                      child: Hero(
+                        tag: 'hero-login',
+                        child: Image.network(
+                          Images.signUpBackgroudImage,
+                          fit: BoxFit.contain,
                         ),
                       ),
-                    ],
-                  ),
-                ],
-              ),
+                    ),
+                  ],
+                ),
+              ],
             ),
           ),
-          Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width,
-              decoration: new BoxDecoration(
-                  color: Color(0xFFF3F3F5),
-                  borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(50.0),
-                    topRight: const Radius.circular(50.0),
-                  )),
-              child: buildBody(),
-            ),
+        ),
+        Align(
+          alignment: Alignment.bottomCenter,
+          child: Container(
+            height: MediaQuery.of(context).size.height * 0.7,
+            width: MediaQuery.of(context).size.width,
+            decoration: new BoxDecoration(
+                color: Color(0xFFF3F3F5),
+                borderRadius: new BorderRadius.only(
+                  topLeft: const Radius.circular(50.0),
+                  topRight: const Radius.circular(50.0),
+                )),
+            child: buildBody(),
           ),
-        ],
-      ),
+        ),
+      ],
     );
   }
 
@@ -272,45 +261,53 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
-          (this.isRequest)
-              ? Padding(
-                  padding: const EdgeInsets.all(8.0),
-                  child: LoadingLoginFresh(
-                    textLoading: this.constantWords.textLoading,
-                    colorText: Color(0xFF0F2E48),
-                    backgroundColor: Color(0xFFE7004C),
-                    elevation: 0,
-                  ),
-                )
-              : GestureDetector(
-                  onTap: () {},
-                  child: SizedBox(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.7,
-                      child: Card(
-                          elevation: 10,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(40),
-                          ),
-                          color: Colors.black,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 10),
-                            child: Center(
-                                child: Text(
-                              this.constantWords.signUp,
-                              style: TextStyle(
-                                  color: Colors.white,
-                                  fontSize: 15,
-                                  fontWeight: FontWeight.bold),
-                            )),
-                          ))),
-                ),
+          Padding(
+            padding: const EdgeInsets.all(8.0),
+            child: LoadingLoginFresh(
+              textLoading: this.constantWords.textLoading,
+              colorText: Color(0xFF0F2E48),
+              backgroundColor: Color(0xFFE7004C),
+              elevation: 0,
+            ),
+          ),
+          GestureDetector(
+            onTap: () {},
+            child: SizedBox(
+                height: MediaQuery.of(context).size.height * 0.07,
+                width: MediaQuery.of(context).size.width * 0.7,
+                child: Card(
+                    elevation: 10,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(40),
+                    ),
+                    color: Colors.black,
+                    child: Padding(
+                      padding: const EdgeInsets.symmetric(horizontal: 10),
+                      child: Center(
+                          child: Text(
+                        this.constantWords.signUp,
+                        style: TextStyle(
+                            color: Colors.white,
+                            fontSize: 15,
+                            fontWeight: FontWeight.bold),
+                      )),
+                    ))),
+          ),
         ]);
   }
 
-  void setIsRequest(bool isRequest) {
-    setState(() {
-      this.isRequest = isRequest;
-    });
+  Widget _signUpAppBar() {
+    return AppBar(
+        iconTheme: IconThemeData(color: Colors.white),
+        backgroundColor: Colors.black,
+        centerTitle: true,
+        elevation: 0,
+        title: Text(
+          this.constantWords.signUp,
+          maxLines: 1,
+          overflow: TextOverflow.ellipsis,
+          style: TextStyle(
+              color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+        ));
   }
 }
