@@ -55,6 +55,7 @@ class _ConfirmUserScreenState extends State<ConfirmUserScreen> {
                   duration: Toast.LENGTH_SHORT,
                   gravity: Toast.CENTER,
                   backgroundColor: Colors.green);
+              Navigator.pop(context);
             } else if (state is UserConfmationError) {
               Toast.show(state.error, context,
                   duration: Toast.LENGTH_SHORT,

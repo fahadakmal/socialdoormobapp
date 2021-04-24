@@ -17,12 +17,7 @@ class _SignInScreenState extends State<SignInScreen> {
     Navigator.push(
       context,
       MaterialPageRoute(
-        builder: (ctx) => LoginWithUserEmailScreen(
-            logo: TypeLogo.blueLogo,
-            callLogin: () {},
-            isResetPassword: true,
-            widgetResetPassword: ForgetPasswordScreen(
-                funResetPassword: () {}, logo: TypeLogo.blueLogo)),
+        builder: (ctx) => LoginWithUserEmailScreen(),
       ),
     );
   }

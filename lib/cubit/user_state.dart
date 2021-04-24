@@ -36,3 +36,13 @@ class SignUpSuccess extends UserState {
 
   SignUpSuccess(this.successMessage);
 }
+
+class LoginInProcess extends UserState {}
+
+class LoginFailed extends UserState {
+  final String error;
+
+  LoginFailed(this.error);
+}
+
+class LoginSuccess extends UserState {}

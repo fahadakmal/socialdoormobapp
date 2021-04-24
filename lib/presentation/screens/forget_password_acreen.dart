@@ -1,31 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:socialdoormobile/constants/images.dart';
+import 'package:socialdoormobile/constants/style.dart';
 
 import '../../constants/language.dart';
 import '../widgets/login_fresh_loading.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
-  final Color backgroundColor;
-
-  final Color textColor;
-
-  final ConstantWords loginFreshWords;
-
-  final String logo;
-
-  final Function funResetPassword;
-
-  final isFooter;
-
-  final Widget widgetFooter;
-
-  ForgetPasswordScreen(
-      {@required this.funResetPassword,
-      this.isFooter,
-      this.widgetFooter,
-      this.backgroundColor,
-      this.textColor,
-      this.loginFreshWords,
-      @required this.logo});
+  ForgetPasswordScreen();
 
   @override
   _ForgetPasswordScreenState createState() => _ForgetPasswordScreenState();
@@ -41,13 +22,12 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
 
   @override
   Widget build(BuildContext context) {
-    loginFreshWords = (widget.loginFreshWords == null)
-        ? ConstantWords()
-        : widget.loginFreshWords;
+    loginFreshWords = ConstantWords();
+
     return Scaffold(
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: widget.backgroundColor ?? Color(0xFFE7004C),
+          backgroundColor: Style.PRIMARY__COLOR,
           centerTitle: true,
           elevation: 0,
           title: Text(
@@ -64,7 +44,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
             child: Container(
               height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width,
-              color: widget.backgroundColor ?? Color(0xFFE7004C),
+              color: Style.PRIMARY__COLOR,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -77,8 +57,8 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                             horizontal: 50, vertical: 3),
                         child: Hero(
                           tag: 'hero-login',
-                          child: Image.asset(
-                            widget.logo,
+                          child: Image.network(
+                            Images.forgetPassword,
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -122,8 +102,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               child: Text(
                 loginFreshWords.messageRecoverPassword,
                 textAlign: TextAlign.justify,
-                style: TextStyle(
-                    color: widget.textColor ?? Color(0xFF0F2E48), fontSize: 14),
+                style: TextStyle(color: Style.TEXT_COLOR, fontSize: 14),
               ),
             ),
             Padding(
@@ -131,9 +110,7 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
               child: TextField(
                   controller: this._textEditingControllerUser,
                   keyboardType: TextInputType.emailAddress,
-                  style: TextStyle(
-                      color: widget.textColor ?? Color(0xFF0F2E48),
-                      fontSize: 14),
+                  style: TextStyle(color: Style.TEXT_COLOR, fontSize: 14),
                   autofocus: false,
                   onSubmitted: (v) {
                     FocusScope.of(context).requestFocus(focus);
@@ -159,58 +136,54 @@ class _ForgetPasswordScreenState extends State<ForgetPasswordScreen> {
                           borderSide: BorderSide(color: Color(0xFFAAB5C3))),
                       border: OutlineInputBorder(
                           borderRadius: BorderRadius.circular(25),
-                          borderSide: BorderSide(
-                              color:
-                                  widget.backgroundColor ?? Color(0xFFE7004C))),
+                          borderSide: BorderSide(color: Style.PRIMARY__COLOR)),
                       hintText: this.loginFreshWords.hintLoginUser)),
             ),
-            (this.isRequest)
-                ? Padding(
-                    padding: const EdgeInsets.all(8.0),
-                    child: LoadingLoginFresh(
-                      textLoading: this.loginFreshWords.textLoading,
-                      colorText: widget.textColor,
-                      backgroundColor: widget.backgroundColor,
-                      elevation: 0,
-                    ),
-                  )
-                : GestureDetector(
-                    onTap: () {
-                      widget.funResetPassword(context, this.setIsRequest,
-                          this._textEditingControllerUser.text);
-                    },
-                    child: Padding(
-                      padding: const EdgeInsets.all(8.0),
-                      child: SizedBox(
-                          height: MediaQuery.of(context).size.height * 0.07,
-                          width: MediaQuery.of(context).size.width * 0.7,
-                          child: Card(
-                              elevation: 10,
-                              shape: RoundedRectangleBorder(
-                                borderRadius: BorderRadius.circular(40),
-                              ),
-                              color:
-                                  widget.backgroundColor ?? Color(0xFFE7004C),
-                              child: Padding(
-                                padding:
-                                    const EdgeInsets.symmetric(horizontal: 10),
-                                child: Center(
-                                    child: Text(
-                                  this.loginFreshWords.recoverPassword,
-                                  style: TextStyle(
-                                      color: Colors.white,
-                                      fontSize: 15,
-                                      fontWeight: FontWeight.bold),
-                                )),
-                              ))),
-                    ),
-                  ),
+
+            // Padding(
+            //     padding: const EdgeInsets.all(8.0),
+            //     child: LoadingLoginFresh(
+            //       textLoading: this.loginFreshWords.textLoading,
+            //       colorText: widget.textColor,
+            //       backgroundColor: widget.backgroundColor,
+            //       elevation: 0,
+            //     ),
+            //   )
+            GestureDetector(
+              onTap: () {
+                // widget.funResetPassword(context, this.setIsRequest,
+                //     this._textEditingControllerUser.text);
+              },
+              child: Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: SizedBox(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.7,
+                    child: Card(
+                        elevation: 10,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(40),
+                        ),
+                        color: Style.PRIMARY__COLOR,
+                        child: Padding(
+                          padding: const EdgeInsets.symmetric(horizontal: 10),
+                          child: Center(
+                              child: Text(
+                            this.loginFreshWords.recoverPassword,
+                            style: TextStyle(
+                                color: Colors.white,
+                                fontSize: 15,
+                                fontWeight: FontWeight.bold),
+                          )),
+                        ))),
+              ),
+            ),
           ],
         ),
         SizedBox(),
-        (widget.isFooter == null || widget.isFooter == false)
-            ? SizedBox()
-            : widget.widgetFooter
+        // (widget.isFooter == null || widget.isFooter == false)
+        //     ? SizedBox()
+        //     : widget.widgetFooter
       ],
     );
   }

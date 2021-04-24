@@ -1,37 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:socialdoormobile/constants/images.dart';
+import 'package:socialdoormobile/constants/route_constants.dart';
+import 'package:socialdoormobile/constants/style.dart';
+import 'package:socialdoormobile/cubit/user_cubit.dart';
+import 'package:toast/toast.dart';
 import '../../constants/language.dart';
 import '../widgets/login_fresh_loading.dart';
 
 class LoginWithUserEmailScreen extends StatefulWidget {
-  final Color backgroundColor;
-  final String logo;
-  final Color textColor;
-
-  final bool isFooter;
-  final Widget widgetFooter;
-
-  final bool isResetPassword;
-  final Widget widgetResetPassword;
-
-  final bool isSignUp;
-  final Widget signUp;
-
-  final Function callLogin;
-
-  final ConstantWords loginFreshWords;
-
-  LoginWithUserEmailScreen(
-      {@required this.callLogin,
-      this.backgroundColor,
-      this.loginFreshWords,
-      this.logo,
-      this.isFooter,
-      this.widgetFooter,
-      this.isResetPassword,
-      this.widgetResetPassword,
-      this.isSignUp,
-      this.signUp,
-      this.textColor});
+  LoginWithUserEmailScreen();
 
   @override
   _LoginWithUserEmailScreenState createState() =>
@@ -45,24 +23,18 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
 
   bool isNoVisiblePassword = true;
 
-  bool isRequest = false;
-
   final focus = FocusNode();
-
-  final bool isLoginRequest = false;
 
   ConstantWords loginFreshWords;
 
   @override
   Widget build(BuildContext context) {
-    loginFreshWords = (widget.loginFreshWords == null)
-        ? ConstantWords()
-        : widget.loginFreshWords;
+    loginFreshWords = ConstantWords();
 
     return Scaffold(
       appBar: AppBar(
           iconTheme: IconThemeData(color: Colors.white),
-          backgroundColor: widget.backgroundColor ?? Color(0xFFE7004C),
+          backgroundColor: Style.PRIMARY__COLOR,
           centerTitle: true,
           elevation: 0,
           title: Text(
@@ -72,14 +44,30 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
             style: TextStyle(
                 color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
           )),
-      body: Stack(
-        children: <Widget>[
+      body: BlocListener<UserCubit, UserState>(
+        listener: (context, state) {
+          if (state is LoginFailed) {
+            Toast.show(state.error, context,
+                duration: Toast.LENGTH_SHORT,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.red);
+            _textEditingControllerPassword.text = '';
+            _textEditingControllerUser.text = '';
+          } else if (state is LoginSuccess) {
+            Toast.show('Successfully logged in', context,
+                duration: Toast.LENGTH_SHORT,
+                gravity: Toast.CENTER,
+                backgroundColor: Colors.green);
+            Navigator.popAndPushNamed(context, HOME_SCREEN_ROUTE);
+          }
+        },
+        child: Stack(children: <Widget>[
           Align(
             alignment: Alignment.topCenter,
             child: Container(
               height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width,
-              color: widget.backgroundColor ?? Color(0xFFE7004C),
+              color: Style.PRIMARY__COLOR,
               child: Column(
                 mainAxisSize: MainAxisSize.max,
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -92,8 +80,8 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                             horizontal: 50, vertical: 3),
                         child: Hero(
                           tag: 'hero-login',
-                          child: Image.asset(
-                            widget.logo,
+                          child: Image.network(
+                            Images.loginBackgroundImage,
                             fit: BoxFit.contain,
                           ),
                         ),
@@ -105,20 +93,19 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
             ),
           ),
           Align(
-            alignment: Alignment.bottomCenter,
-            child: Container(
-              height: MediaQuery.of(context).size.height * 0.7,
-              width: MediaQuery.of(context).size.width,
-              decoration: new BoxDecoration(
-                  color: Color(0xFFF3F3F5),
-                  borderRadius: new BorderRadius.only(
-                    topLeft: const Radius.circular(50.0),
-                    topRight: const Radius.circular(50.0),
-                  )),
-              child: buildBody(),
-            ),
-          ),
-        ],
+              alignment: Alignment.bottomCenter,
+              child: Container(
+                height: MediaQuery.of(context).size.height * 0.7,
+                width: MediaQuery.of(context).size.width,
+                decoration: new BoxDecoration(
+                    color: Color(0xFFF3F3F5),
+                    borderRadius: new BorderRadius.only(
+                      topLeft: const Radius.circular(50.0),
+                      topRight: const Radius.circular(50.0),
+                    )),
+                child: buildBody(),
+              )),
+        ]),
       ),
     );
   }
@@ -147,9 +134,7 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                   child: TextField(
                       controller: this._textEditingControllerUser,
                       keyboardType: TextInputType.emailAddress,
-                      style: TextStyle(
-                          color: widget.textColor ?? Color(0xFF0F2E48),
-                          fontSize: 14),
+                      style: TextStyle(color: Style.TEXT_COLOR, fontSize: 14),
                       autofocus: false,
                       onSubmitted: (v) {
                         FocusScope.of(context).requestFocus(focus);
@@ -175,9 +160,8 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                               borderSide: BorderSide(color: Color(0xFFAAB5C3))),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(
-                                  color: widget.backgroundColor ??
-                                      Color(0xFFE7004C))),
+                              borderSide:
+                                  BorderSide(color: Style.PRIMARY__COLOR)),
                           hintText: this.loginFreshWords.hintLoginUser)),
                 ),
                 Padding(
@@ -187,15 +171,13 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                       focusNode: focus,
                       controller: this._textEditingControllerPassword,
                       obscureText: this.isNoVisiblePassword,
-                      style: TextStyle(
-                          color: widget.textColor ?? Color(0xFF0F2E48),
-                          fontSize: 14),
+                      style: TextStyle(color: Style.TEXT_COLOR, fontSize: 14),
                       onSubmitted: (value) {
-                        widget.callLogin(
-                            context,
-                            setIsRequest,
-                            this._textEditingControllerUser.text,
-                            this._textEditingControllerPassword.text);
+                        // widget.callLogin(
+                        //     context,
+                        //     setIsRequest,
+                        //     this._textEditingControllerUser.text,
+                        //     this._textEditingControllerPassword.text);
                       },
                       decoration: InputDecoration(
                           prefixIcon: Padding(
@@ -246,86 +228,83 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                               borderSide: BorderSide(color: Color(0xFFAAB5C3))),
                           border: OutlineInputBorder(
                               borderRadius: BorderRadius.circular(25),
-                              borderSide: BorderSide(
-                                  color: widget.backgroundColor ??
-                                      Color(0xFFE7004C))),
+                              borderSide:
+                                  BorderSide(color: Style.PRIMARY__COLOR)),
                           hintText: this.loginFreshWords.hintLoginPassword)),
                 ),
-                (this.isRequest)
-                    ? Padding(
-                        padding: const EdgeInsets.all(8.0),
-                        child: LoadingLoginFresh(
-                          textLoading: this.loginFreshWords.textLoading,
-                          colorText: widget.textColor,
-                          backgroundColor: widget.backgroundColor,
-                          elevation: 0,
-                        ),
-                      )
-                    : GestureDetector(
-                        onTap: () {
-                          widget.callLogin(
-                              context,
-                              setIsRequest,
-                              this._textEditingControllerUser.text,
-                              this._textEditingControllerPassword.text);
-                        },
-                        child: SizedBox(
-                            height: MediaQuery.of(context).size.height * 0.07,
-                            width: MediaQuery.of(context).size.width * 0.7,
-                            child: Card(
-                                elevation: 10,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(40),
-                                ),
-                                color:
-                                    widget.backgroundColor ?? Color(0xFFE7004C),
-                                child: Padding(
-                                  padding: const EdgeInsets.symmetric(
-                                      horizontal: 10),
-                                  child: Center(
-                                      child: Text(
-                                    this.loginFreshWords.login,
-                                    style: TextStyle(
-                                        color: Colors.white,
-                                        fontSize: 15,
-                                        fontWeight: FontWeight.bold),
-                                  )),
-                                ))),
-                      ),
-                (widget.isResetPassword == null ||
-                        widget.isResetPassword == false)
-                    ? SizedBox()
-                    : GestureDetector(
-                        child: Padding(
-                          padding: const EdgeInsets.only(
-                              top: 25, left: 10, right: 10),
-                          child: RichText(
-                            textAlign: TextAlign.center,
-                            text: TextSpan(children: [
-                              TextSpan(
-                                  text: '',
+
+                //  Padding(
+                //     padding: const EdgeInsets.all(8.0),
+                //     child: LoadingLoginFresh(
+                //       textLoading: this.loginFreshWords.textLoading,
+                //       colorText: widget.textColor,
+                //       backgroundColor: widget.backgroundColor,
+                //       elevation: 0,
+                //     ),
+                //   )
+                BlocBuilder<UserCubit, UserState>(
+                  builder: (context, state) {
+                    if (state is LoginInProcess) {
+                      return CircularProgressIndicator();
+                    }
+                    return GestureDetector(
+                      onTap: () {
+                        BlocProvider.of<UserCubit>(context).login(
+                            this._textEditingControllerUser.text,
+                            this._textEditingControllerPassword.text);
+                      },
+                      child: SizedBox(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.7,
+                          child: Card(
+                              elevation: 10,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(40),
+                              ),
+                              color: Style.PRIMARY__COLOR,
+                              child: Padding(
+                                padding:
+                                    const EdgeInsets.symmetric(horizontal: 10),
+                                child: Center(
+                                    child: Text(
+                                  this.loginFreshWords.login,
                                   style: TextStyle(
-                                      color:
-                                          widget.textColor ?? Color(0xFF0F2E48),
-                                      fontWeight: FontWeight.normal,
-                                      fontSize: 15)),
-                              TextSpan(
-                                  text: this.loginFreshWords.recoverPassword,
-                                  style: TextStyle(
-                                      decoration: TextDecoration.underline,
-                                      color:
-                                          widget.textColor ?? Color(0xFF0F2E48),
-                                      fontWeight: FontWeight.bold,
-                                      fontSize: 16)),
-                            ]),
-                          ),
-                        ),
-                        onTap: () {
-                          Navigator.of(context).push(MaterialPageRoute(
-                            builder: (context) => widget.widgetResetPassword,
-                          ));
-                        },
-                      ),
+                                      color: Colors.white,
+                                      fontSize: 15,
+                                      fontWeight: FontWeight.bold),
+                                )),
+                              ))),
+                    );
+                  },
+                ),
+
+                GestureDetector(
+                  child: Padding(
+                    padding:
+                        const EdgeInsets.only(top: 25, left: 10, right: 10),
+                    child: RichText(
+                      textAlign: TextAlign.center,
+                      text: TextSpan(children: [
+                        TextSpan(
+                            text: '',
+                            style: TextStyle(
+                                color: Style.TEXT_COLOR,
+                                fontWeight: FontWeight.normal,
+                                fontSize: 15)),
+                        TextSpan(
+                            text: this.loginFreshWords.recoverPassword,
+                            style: TextStyle(
+                                decoration: TextDecoration.underline,
+                                color: Style.TEXT_COLOR,
+                                fontWeight: FontWeight.bold,
+                                fontSize: 16)),
+                      ]),
+                    ),
+                  ),
+                  onTap: () {
+                    Navigator.pushNamed(context, FORGET_PASSWORD_ROUTE);
+                  },
+                ),
                 GestureDetector(
                   child: Padding(
                     padding: const EdgeInsets.symmetric(
@@ -336,41 +315,34 @@ class _LoginWithUserEmailScreenState extends State<LoginWithUserEmailScreen> {
                         TextSpan(
                             text: this.loginFreshWords.notAccount + ' \n',
                             style: TextStyle(
-                                color: widget.textColor ?? Color(0xFF0F2E48),
+                                color: Style.PRIMARY__COLOR,
                                 fontWeight: FontWeight.normal,
                                 fontSize: 15)),
                         TextSpan(
                             text: this.loginFreshWords.signUp,
                             style: TextStyle(
                                 decoration: TextDecoration.underline,
-                                color: widget.textColor ?? Color(0xFF0F2E48),
+                                color: Style.PRIMARY__COLOR,
                                 fontWeight: FontWeight.bold,
                                 fontSize: 16)),
                       ]),
                     ),
                   ),
                   onTap: () {
-                    Navigator.of(context).push(MaterialPageRoute(
-                        builder: (_buildContext) => widget.signUp));
+                    Navigator.pushNamed(context, SIGNUP_USER_ROUTE);
                   },
                 ),
               ],
             ),
           ),
         ),
-        Align(
-          alignment: Alignment.bottomCenter,
-          child: (widget.isFooter == null || widget.isFooter == false)
-              ? SizedBox()
-              : widget.widgetFooter,
-        ),
+        // Align(
+        //   alignment: Alignment.bottomCenter,
+        //   child: (widget.isFooter == null || widget.isFooter == false)
+        //       ? SizedBox()
+        //       : widget.widgetFooter,
+        // ),
       ],
     );
-  }
-
-  void setIsRequest(bool isRequest) {
-    setState(() {
-      this.isRequest = isRequest;
-    });
   }
 }

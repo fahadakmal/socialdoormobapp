@@ -44,4 +44,17 @@ class NetworkService {
       return null;
     }
   }
+
+  Future<bool> login(String username, String passoword) async {
+    try {
+      print(username);
+      print(passoword);
+      SignInResult res =
+          await Amplify.Auth.signIn(username: username, password: passoword);
+      return res.isSignedIn;
+    } catch (e) {
+      print(e);
+      return null;
+    }
+  }
 }

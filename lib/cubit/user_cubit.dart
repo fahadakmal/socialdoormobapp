@@ -40,4 +40,20 @@ class UserCubit extends Cubit<UserState> {
             {emit(UserConfmationError('Code doesnot matched plz try again'))}
         });
   }
+
+  void login(String username, String passoword) {
+    emit(LoginInProcess());
+
+    if (!username.isNotEmpty && !passoword.isNotEmpty) {
+      emit(LoginFailed('Email or Password is empty'));
+    }
+
+    repositery.login(username, passoword).then((isSignedIn) {
+      if (isSignedIn == true) {
+        emit(LoginSuccess());
+      } else {
+        emit(LoginFailed('failed'));
+      }
+    });
+  }
 }

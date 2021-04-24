@@ -13,4 +13,8 @@ class Repositery {
   Future<bool> confirmUser(String code, SignUpModel signUpModel) async {
     return await networkService.confirmUser(code, signUpModel);
   }
+
+  Future<bool> login(String username, String passoword) async {
+    return await networkService.login(username, passoword);
+  }
 }
