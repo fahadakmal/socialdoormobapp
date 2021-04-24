@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:socialdoormobile/constants/images.dart';
 import 'package:socialdoormobile/constants/language.dart';
+import 'package:socialdoormobile/cubit/signup_cubit.dart';
 import 'package:socialdoormobile/data/models/sign_up_model.dart';
 
 import '../widgets/login_fresh_loading.dart';
@@ -150,7 +152,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
                         const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
                     child: TextField(
                         onChanged: (String value) {
-                          this.signUpModel.surname = value;
+                          this.signUpModel.phone = value;
                         },
                         keyboardType: TextInputType.text,
                         style:
@@ -261,37 +263,51 @@ class _SignUpScreenState extends State<SignUpScreen> {
               ),
             ),
           ),
-          Padding(
-            padding: const EdgeInsets.all(8.0),
-            child: LoadingLoginFresh(
-              textLoading: this.constantWords.textLoading,
-              colorText: Color(0xFF0F2E48),
-              backgroundColor: Color(0xFFE7004C),
-              elevation: 0,
-            ),
-          ),
-          GestureDetector(
-            onTap: () {},
-            child: SizedBox(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.7,
-                child: Card(
-                    elevation: 10,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(40),
-                    ),
-                    color: Colors.black,
-                    child: Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 10),
-                      child: Center(
-                          child: Text(
-                        this.constantWords.signUp,
-                        style: TextStyle(
-                            color: Colors.white,
-                            fontSize: 15,
-                            fontWeight: FontWeight.bold),
-                      )),
-                    ))),
+
+          // Padding(
+          //   padding: const EdgeInsets.all(8.0),
+          //   child: LoadingLoginFresh(
+          //     textLoading: this.constantWords.textLoading,
+          //     colorText: Color(0xFF0F2E48),
+          //     backgroundColor: Color(0xFFE7004C),
+          //     elevation: 0,
+          //   ),
+          // ),
+          BlocBuilder<SignupCubit, SignupState>(
+            builder: (context, state) {
+              if (state is SignIningUp) {
+                return Center(
+                  child: CircularProgressIndicator(),
+                );
+              } else {
+                return GestureDetector(
+                  onTap: () {
+                    BlocProvider.of<SignupCubit>(context)
+                        .signUpUser(signUpModel);
+                  },
+                  child: SizedBox(
+                      height: MediaQuery.of(context).size.height * 0.07,
+                      width: MediaQuery.of(context).size.width * 0.7,
+                      child: Card(
+                          elevation: 10,
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(40),
+                          ),
+                          color: Colors.black,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 10),
+                            child: Center(
+                                child: Text(
+                              this.constantWords.signUp,
+                              style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.bold),
+                            )),
+                          ))),
+                );
+              }
+            },
           ),
         ]);
   }

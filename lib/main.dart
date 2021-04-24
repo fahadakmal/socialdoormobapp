@@ -14,7 +14,10 @@ Future<void> main() async {
   final Repositery repositery = Repositery(networkService: NetworkService());
   WidgetsFlutterBinding.ensureInitialized();
   await configureAmlipfy();
-  runApp(MyApp());
+  runApp(MyApp(
+    appRouter: AppRouter(),
+    repositery: repositery,
+  ));
 }
 
 Future<void> configureAmlipfy() async {

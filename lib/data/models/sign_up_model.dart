@@ -4,12 +4,8 @@ class SignUpModel {
   String repeatPassword;
 
   String name;
-  String surname;
+  String phone;
 
   SignUpModel(
-      {this.email,
-      this.password,
-      this.repeatPassword,
-      this.name,
-      this.surname});
+      {this.email, this.password, this.repeatPassword, this.name, this.phone});
 }
