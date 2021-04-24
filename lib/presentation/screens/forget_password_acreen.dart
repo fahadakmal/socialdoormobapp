@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:socialdoormobile/presentation/widgets/login_fresh_loading.dart';
 
 import '../../constants/language.dart';
+import '../widgets/login_fresh_loading.dart';
 
 class ForgetPasswordScreen extends StatefulWidget {
   final Color backgroundColor;

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:socialdoormobile/constants/language.dart';
-import 'package:socialdoormobile/data/models/type_login.dart';
+
+import '../../constants/language.dart';
+import '../../constants/route_constants.dart';
+import '../../data/models/type_login.dart';
 
 /// Widget main with social networks
 class LoginFresh extends StatefulWidget {
@@ -146,8 +148,7 @@ class _LoginFreshState extends State<LoginFresh> {
         ),
       ),
       onTap: () {
-        Navigator.of(context).push(
-            MaterialPageRoute(builder: (_buildContext) => widget.widgetSignUp));
+        Navigator.pushNamed(context, SIGNUP_USER_ROUTE);
       },
     );
   }

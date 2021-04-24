@@ -14,6 +14,7 @@ class ConstantWords {
   String recoverPassword;
 
   String messageRecoverPassword;
+  String confirm_user;
 
   ConstantWords(
       {this.loginWith = 'Login With',
@@ -22,6 +23,7 @@ class ConstantWords {
       this.hintSignUpRepeatPassword = 'Repeat Password',
       this.hintLoginPassword = 'Password',
       this.recoverPassword = 'Recover Password',
+      this.confirm_user = 'Verify your Identity',
       this.messageRecoverPassword =
           'To recover the password, enter the email and press send email, you will receive an email so you can update your password. Only available for accounts created by username and password',
       this.hintLoginUser = 'Username or email',

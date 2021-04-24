@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:socialdoormobile/constants/language.dart';
-import 'package:socialdoormobile/presentation/widgets/login_fresh_loading.dart';
+import '../../constants/language.dart';
+import '../widgets/login_fresh_loading.dart';
 
 class LoginWithUserEmailScreen extends StatefulWidget {
   final Color backgroundColor;

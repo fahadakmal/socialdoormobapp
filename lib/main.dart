@@ -2,11 +2,11 @@ import 'package:amplify_auth_cognito/amplify_auth_cognito.dart';
 import 'package:amplify_flutter/amplify.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socialdoormobile/amplifyconfiguration.dart';
-import 'package:socialdoormobile/cubit/signup_cubit.dart';
-import 'package:socialdoormobile/data/network_service.dart';
-import 'package:socialdoormobile/data/repositery.dart';
-import 'package:socialdoormobile/presentation/router/app_router.dart';
+import 'amplifyconfiguration.dart';
+import 'cubit/user_cubit.dart';
+import 'data/network_service.dart';
+import 'data/repositery.dart';
+import 'presentation/router/app_router.dart';
 
 import 'presentation/screens/splash_screen.dart';
 
@@ -44,11 +44,11 @@ class MyApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<SignupCubit>(
-          create: (BuildContext context) => SignupCubit(
+        BlocProvider<UserCubit>(
+          create: (BuildContext context) => UserCubit(
             repositery: repositery,
           ),
-        )
+        ),
       ],
       child: MaterialApp(
         onGenerateRoute: appRouter.onGenerateRoute,

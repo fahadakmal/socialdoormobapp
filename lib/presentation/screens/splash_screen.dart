@@ -1,9 +1,10 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:socialdoormobile/constants/videos.dart';
-import 'package:socialdoormobile/presentation/screens/sign_in_screen.dart';
 import 'package:video_player/video_player.dart';
+
+import '../../constants/videos.dart';
+import 'sign_in_screen.dart';
 
 class SplashScreen extends StatefulWidget {
   @override

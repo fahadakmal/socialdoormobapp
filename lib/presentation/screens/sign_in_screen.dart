@@ -1,10 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:socialdoormobile/data/models/type_login.dart';
-import 'package:socialdoormobile/presentation/screens/forget_password_acreen.dart';
-import 'package:socialdoormobile/presentation/screens/sign_in_with_email_screen.dart';
-import 'package:socialdoormobile/presentation/screens/signup_screen.dart';
-import 'package:socialdoormobile/presentation/widgets/footer_login.dart';
-import 'package:socialdoormobile/presentation/widgets/login_fresh.dart';
+
+import '../../data/models/type_login.dart';
+import '../widgets/footer_login.dart';
+import '../widgets/login_fresh.dart';
+import 'forget_password_acreen.dart';
+import 'sign_in_with_email_screen.dart';
+import 'signup_screen.dart';
 
 class SignInScreen extends StatefulWidget {
   @override

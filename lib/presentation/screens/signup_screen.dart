@@ -1,9 +1,13 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:socialdoormobile/constants/images.dart';
-import 'package:socialdoormobile/constants/language.dart';
-import 'package:socialdoormobile/cubit/signup_cubit.dart';
-import 'package:socialdoormobile/data/models/sign_up_model.dart';
+import '../../constants/images.dart';
+import '../../constants/language.dart';
+import '../../constants/route_constants.dart';
+import '../../cubit/user_cubit.dart';
+import '../../data/models/sign_up_model.dart';
+import 'package:toast/toast.dart';
 
 import '../widgets/login_fresh_loading.dart';
 
@@ -13,6 +17,7 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  FocusNode focusNode = new FocusNode();
   SignUpModel signUpModel = SignUpModel();
 
   bool isNoVisiblePassword = true;
@@ -23,10 +28,44 @@ class _SignUpScreenState extends State<SignUpScreen> {
   Widget build(BuildContext context) {
     constantWords = ConstantWords();
 
-    return Scaffold(appBar: _signUpAppBar(), body: _signUpBody());
+    return Scaffold(
+        appBar: _signUpAppBar(),
+        body: BlocListener<UserCubit, UserState>(
+          listener: (context, state) {
+            if (state is SignUpSuccess) {
+              Toast.show(state.successMessage, context,
+                  duration: 2,
+                  gravity: Toast.CENTER,
+                  backgroundColor: Colors.green);
+              Timer(Duration(seconds: 2), () {
+                Navigator.popAndPushNamed(context, CONFIRM_USER_ROUTE,
+                    arguments: signUpModel);
+              });
+            } else if (state is SignUpError) {
+              Toast.show(state.error, context,
+                  duration: Toast.LENGTH_SHORT,
+                  gravity: Toast.CENTER,
+                  backgroundColor: Colors.red);
+            }
+          },
+          child: GestureDetector(
+            child: _signUpBody(context),
+            onTap: () {
+              focusMethod(context);
+            },
+          ),
+        ));
   }
 
-  Widget _signUpBody() {
+  void focusMethod(BuildContext context) {
+    FocusScopeNode currentFocus = FocusScope.of(context);
+
+    if (!currentFocus.hasPrimaryFocus) {
+      currentFocus.unfocus();
+    }
+  }
+
+  Widget _signUpBody(BuildContext context) {
     return Stack(
       children: <Widget>[
         Align(
@@ -273,7 +312,7 @@ class _SignUpScreenState extends State<SignUpScreen> {
           //     elevation: 0,
           //   ),
           // ),
-          BlocBuilder<SignupCubit, SignupState>(
+          BlocBuilder<UserCubit, UserState>(
             builder: (context, state) {
               if (state is SignIningUp) {
                 return Center(
@@ -282,8 +321,8 @@ class _SignUpScreenState extends State<SignUpScreen> {
               } else {
                 return GestureDetector(
                   onTap: () {
-                    BlocProvider.of<SignupCubit>(context)
-                        .signUpUser(signUpModel);
+                    focusMethod(context);
+                    BlocProvider.of<UserCubit>(context).signUpUser(signUpModel);
                   },
                   child: SizedBox(
                       height: MediaQuery.of(context).size.height * 0.07,
