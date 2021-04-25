@@ -4,23 +4,31 @@ import 'package:amplify_flutter/amplify.dart';
 import 'models/sign_up_model.dart';
 
 class NetworkService {
-  Future<bool> userSignUp(SignUpModel signUpModel, String password) async {
+  Future<bool> userSignUp(
+    SignUpModel signUpModel,
+  ) async {
     try {
       bool isSignUp = false;
-      var res = await Amplify.Auth.signUp(
+      var bd = signUpModel.dob.toString();
+      var birthDayDate = bd.split(" ")[0];
+      Map<String, String> userAttributes = {
+        "email": signUpModel.email,
+        "given_name": signUpModel.firstName,
+        "family_name": signUpModel.lastName,
+        "phone_number": '+15559101234',
+        "birthdate": birthDayDate,
+        "gender": signUpModel.gender.toString(),
+      };
+      SignUpResult res = await Amplify.Auth.signUp(
           username: signUpModel.email,
-          password: password,
-          options: CognitoSignUpOptions(userAttributes: {
-            "email": signUpModel.email,
-          })).catchError((e) {
-        print('$e');
-      });
+          password: signUpModel.password,
+          options: CognitoSignUpOptions(userAttributes: userAttributes));
       if (res.isSignUpComplete) {
         isSignUp = true;
       }
       return isSignUp;
-    } catch (e) {
-      return false;
+    } on AuthException catch (e) {
+      print(e.message);
     }
   }
 

@@ -8,8 +8,8 @@ import '../../constants/route_constants.dart';
 import '../../cubit/user_cubit.dart';
 import '../../data/models/sign_up_model.dart';
 import 'package:toast/toast.dart';
-
 import '../widgets/login_fresh_loading.dart';
+import 'package:flutter_datetime_picker/flutter_datetime_picker.dart';
 
 class SignUpScreen extends StatefulWidget {
   @override
@@ -17,10 +17,13 @@ class SignUpScreen extends StatefulWidget {
 }
 
 class _SignUpScreenState extends State<SignUpScreen> {
+  String dropdownValue = 'Please Select';
   FocusNode focusNode = new FocusNode();
   SignUpModel signUpModel = SignUpModel();
 
   bool isNoVisiblePassword = true;
+  DateTime now = new DateTime.now();
+  String textForDatePicker = 'Select Birth Date';
 
   ConstantWords constantWords;
 
@@ -157,34 +160,69 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                     BorderSide(color: Color(0xFFE7004C))),
                             hintText: this.constantWords.hintLoginUser)),
                   ),
-                  Padding(
-                    padding:
-                        const EdgeInsets.symmetric(horizontal: 20, vertical: 5),
-                    child: TextField(
-                        onChanged: (String value) {
-                          this.signUpModel.name = value;
-                        },
-                        keyboardType: TextInputType.text,
-                        style:
-                            TextStyle(color: Color(0xFF0F2E48), fontSize: 14),
-                        autofocus: false,
-                        decoration: InputDecoration(
-                            enabledBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    BorderSide(color: Color(0xFFAAB5C3))),
-                            filled: true,
-                            fillColor: Color(0xFFF3F3F5),
-                            focusColor: Color(0xFFF3F3F5),
-                            focusedBorder: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    BorderSide(color: Color(0xFFAAB5C3))),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(15),
-                                borderSide:
-                                    BorderSide(color: Color(0xFFE7004C))),
-                            hintText: this.constantWords.hintName)),
+                  Row(
+                    children: <Widget>[
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: TextField(
+                            onChanged: (String value) {
+                              this.signUpModel.firstName = value;
+                            },
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                                color: Color(0xFF0F2E48), fontSize: 14),
+                            autofocus: false,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFAAB5C3))),
+                                filled: true,
+                                fillColor: Color(0xFFF3F3F5),
+                                focusColor: Color(0xFFF3F3F5),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFAAB5C3))),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFE7004C))),
+                                hintText: this.constantWords.hintFirstName)),
+                      ),
+                      Container(
+                        width: MediaQuery.of(context).size.width / 2,
+                        padding: const EdgeInsets.symmetric(
+                            horizontal: 20, vertical: 5),
+                        child: TextField(
+                            onChanged: (String value) {
+                              this.signUpModel.lastName = value;
+                            },
+                            keyboardType: TextInputType.text,
+                            style: TextStyle(
+                                color: Color(0xFF0F2E48), fontSize: 14),
+                            autofocus: false,
+                            decoration: InputDecoration(
+                                enabledBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFAAB5C3))),
+                                filled: true,
+                                fillColor: Color(0xFFF3F3F5),
+                                focusColor: Color(0xFFF3F3F5),
+                                focusedBorder: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFAAB5C3))),
+                                border: OutlineInputBorder(
+                                    borderRadius: BorderRadius.circular(15),
+                                    borderSide:
+                                        BorderSide(color: Color(0xFFE7004C))),
+                                hintText: this.constantWords.hintLastName)),
+                      ),
+                    ],
                   ),
                   Padding(
                     padding:
@@ -213,7 +251,107 @@ class _SignUpScreenState extends State<SignUpScreen> {
                                 borderRadius: BorderRadius.circular(15),
                                 borderSide:
                                     BorderSide(color: Color(0xFFE7004C))),
-                            hintText: this.constantWords.hintSurname)),
+                            hintText: this.constantWords.hintPhoneNumber)),
+                  ),
+                  Container(
+                    padding: const EdgeInsets.symmetric(
+                        vertical: 0.0, horizontal: 20),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: <Widget>[
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(0xFFAAB5C3), // red as border color
+                              ),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 20),
+                          child: DropdownButton<String>(
+                            isExpanded: true,
+                            value: dropdownValue,
+                            icon: const Icon(Icons.arrow_downward),
+                            iconSize: 24,
+                            elevation: 16,
+                            style: const TextStyle(color: Colors.deepPurple),
+                            // underline: Container(
+                            //   height: 2,
+                            //   color: Colors.deepPurpleAccent,
+                            // ),
+                            onChanged: (String newValue) {
+                              setState(() {
+                                dropdownValue = newValue;
+                              });
+                              if (dropdownValue == 'Male') {
+                                this.signUpModel.gender = 1;
+                              } else if (dropdownValue == 'Female') {
+                                this.signUpModel.gender = 0;
+                              } else if (dropdownValue == 'Other') {
+                                this.signUpModel.gender = 2;
+                              }
+                              print(this.signUpModel.gender);
+                            },
+                            items: <String>[
+                              'Please Select',
+                              'Male',
+                              'Female',
+                              'Other'
+                            ].map<DropdownMenuItem<String>>((String value) {
+                              return DropdownMenuItem<String>(
+                                value: value,
+                                child: Text(value),
+                              );
+                            }).toList(),
+                          ),
+                        ),
+                        Container(
+                          width: MediaQuery.of(context).size.width / 2.5,
+                          decoration: BoxDecoration(
+                              border: Border.all(
+                                color: Color(0xFFAAB5C3), // red as border color
+                              ),
+                              borderRadius: BorderRadius.circular(15)),
+                          padding: const EdgeInsets.symmetric(
+                              vertical: 0.0, horizontal: 20),
+                          child: TextButton(
+                              onPressed: () {
+                                DatePicker.showDatePicker(context,
+                                    showTitleActions: true,
+                                    maxTime:
+                                        DateTime(now.year, now.month, now.day),
+                                    theme: DatePickerTheme(
+                                        headerColor: Colors.white,
+                                        backgroundColor: Colors.black,
+                                        itemStyle: TextStyle(
+                                            color: Colors.white,
+                                            fontWeight: FontWeight.bold,
+                                            fontSize: 18),
+                                        doneStyle: TextStyle(
+                                            color: Colors.black,
+                                            fontSize: 16)), onChanged: (date) {
+                                  print('change $date in time zone ' +
+                                      date.timeZoneOffset.inHours.toString());
+                                }, onConfirm: (date) {
+                                  var stDate = date.toString();
+                                  var ddtate = stDate.split(" ")[0];
+                                  this.signUpModel.dob = date;
+
+                                  print(this.signUpModel.dob);
+                                  setState(() {
+                                    textForDatePicker = ddtate;
+                                  });
+                                },
+                                    currentTime: DateTime.now(),
+                                    locale: LocaleType.en);
+                              },
+                              child: Text(
+                                textForDatePicker,
+                                style: TextStyle(color: Color(0xFFAAB5C3)),
+                              )),
+                        ),
+                      ],
+                    ),
                   ),
                   Padding(
                     padding:

@@ -14,9 +14,7 @@ class UserCubit extends Cubit<UserState> {
   void signUpUser(SignUpModel signUpModel) {
     emit(SignIningUp());
 
-    repositery
-        .userSignUp(signUpModel, signUpModel.password)
-        .then((isSignUpCompleted) {
+    repositery.userSignUp(signUpModel).then((isSignUpCompleted) {
       if (isSignUpCompleted == true) {
         emit(SignUpSuccess('Successfully registered'));
       } else {

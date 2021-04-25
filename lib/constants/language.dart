@@ -15,15 +15,24 @@ class ConstantWords {
 
   String messageRecoverPassword;
   String confirm_user;
+  String hintFirstName;
+  String hintLastName;
+  String hintdateOfBirth;
+  String hintGender;
+  String hintPhoneNumber;
 
   ConstantWords(
-      {this.loginWith = 'Login With',
-      this.hintName = 'Name',
+      {this.hintPhoneNumber = "Phone",
+      this.loginWith = 'Login With',
+      this.hintFirstName = 'First Name',
+      this.hintLastName = 'Last Name',
       this.hintSurname = 'Surname',
       this.hintSignUpRepeatPassword = 'Repeat Password',
       this.hintLoginPassword = 'Password',
       this.recoverPassword = 'Recover Password',
       this.confirm_user = 'Verify your Identity',
+      this.hintGender = 'Gender',
+      this.hintdateOfBirth = 'Date of Birth',
       this.messageRecoverPassword =
           'To recover the password, enter the email and press send email, you will receive an email so you can update your password. Only available for accounts created by username and password',
       this.hintLoginUser = 'Username or email',

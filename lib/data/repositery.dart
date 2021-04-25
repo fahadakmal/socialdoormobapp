@@ -6,8 +6,10 @@ class Repositery {
 
   Repositery({this.networkService});
 
-  Future<bool> userSignUp(SignUpModel signUpModel, String password) async {
-    return await networkService.userSignUp(signUpModel, password);
+  Future<bool> userSignUp(
+    SignUpModel signUpModel,
+  ) async {
+    return await networkService.userSignUp(signUpModel);
   }
 
   Future<bool> confirmUser(String code, SignUpModel signUpModel) async {
