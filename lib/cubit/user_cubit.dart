@@ -1,5 +1,6 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
+import 'package:socialdoormobile/data/models/user_model.dart';
 import '../data/models/sign_up_model.dart';
 import '../data/repositery.dart';
 
@@ -33,7 +34,17 @@ class UserCubit extends Cubit<UserState> {
 
     repositery.confirmUser(code, signUpModel).then((value) => {
           if (value == true)
-            {emit(UserConfirmed('you are successfully confirmed'))}
+            {
+              repositery
+                  .login(signUpModel.email, signUpModel.password)
+                  .then((user) {
+                if (user != null) {
+                  emit(LoginSuccess(user));
+                }
+              })
+            }
+
+          // emit(UserConfirmed('you are successfully confirmed'))}
           else
             {emit(UserConfmationError('Code doesnot matched plz try again'))}
         });
@@ -46,9 +57,25 @@ class UserCubit extends Cubit<UserState> {
       emit(LoginFailed('Email or Password is empty'));
     }
 
-    repositery.login(username, passoword).then((isSignedIn) {
-      if (isSignedIn == true) {
-        emit(LoginSuccess());
+    repositery.login(username, passoword).then((user) {
+      print(' i am in login');
+      print(user);
+      print(' i am in login');
+      if (user != null) {
+        emit(LoginSuccess(user));
+      } else {
+        emit(LoginFailed('failed'));
+      }
+    });
+  }
+
+  void autoLogin() {
+    repositery.autoLogin().then((user) {
+      print(' i am in login');
+      print(user);
+      print(' i am in login');
+      if (user != null) {
+        emit(LoginSuccess(user));
       } else {
         emit(LoginFailed('failed'));
       }

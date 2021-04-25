@@ -40,6 +40,8 @@ PODS:
     - AWSCore (~> 2.23.3)
   - Flutter (1.0.0)
   - ObjectMapper (4.2.0)
+  - shared_preferences (0.0.1):
+    - Flutter
   - video_player (0.0.1):
     - Flutter
 
@@ -48,6 +50,7 @@ DEPENDENCIES:
   - amplify_core (from `.symlinks/plugins/amplify_core/ios`)
   - amplify_flutter (from `.symlinks/plugins/amplify_flutter/ios`)
   - Flutter (from `Flutter`)
+  - shared_preferences (from `.symlinks/plugins/shared_preferences/ios`)
   - video_player (from `.symlinks/plugins/video_player/ios`)
 
 SPEC REPOS:
@@ -71,6 +74,8 @@ EXTERNAL SOURCES:
     :path: ".symlinks/plugins/amplify_flutter/ios"
   Flutter:
     :path: Flutter
+  shared_preferences:
+    :path: ".symlinks/plugins/shared_preferences/ios"
   video_player:
     :path: ".symlinks/plugins/video_player/ios"
 
@@ -88,6 +93,7 @@ SPEC CHECKSUMS:
   AWSPluginsCore: cadee247acd6a0e8a1915fa3a7ec2b80b49f43bb
   Flutter: 434fef37c0980e73bb6479ef766c45957d4b510c
   ObjectMapper: 1eb41f610210777375fa806bf161dc39fb832b81
+  shared_preferences: af6bfa751691cdc24be3045c43ec037377ada40d
   video_player: 9cc823b1d9da7e8427ee591e8438bfbcde500e6e
 
 PODFILE CHECKSUM: 0dbd5a87e0ace00c9610d2037ac22083a01f861d

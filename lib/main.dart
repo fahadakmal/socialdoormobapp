@@ -17,6 +17,7 @@ Future<void> main() async {
   runApp(MyApp(
     appRouter: AppRouter(),
     repositery: repositery,
+    userCubit: UserCubit(repositery: repositery),
   ));
 }
 
@@ -34,21 +35,24 @@ class MyApp extends StatelessWidget {
   final AppRouter appRouter;
 
   final Repositery repositery;
+  final UserCubit userCubit;
 
   const MyApp({
     Key key,
     this.appRouter,
     this.repositery,
+    this.userCubit,
   }) : super(key: key);
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
       providers: [
-        BlocProvider<UserCubit>(
-          create: (BuildContext context) => UserCubit(
-            repositery: repositery,
-          ),
-        ),
+        BlocProvider.value(value: userCubit)
+        // BlocProvider<UserCubit>(
+        //   create: (BuildContext context) => UserCubit(
+        //     repositery: repositery,
+        //   ),
+        // ),
       ],
       child: MaterialApp(
         onGenerateRoute: appRouter.onGenerateRoute,

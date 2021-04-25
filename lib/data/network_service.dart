@@ -7,16 +7,17 @@ class NetworkService {
   Future<bool> userSignUp(
     SignUpModel signUpModel,
   ) async {
+    print('i am in signup network');
     try {
       bool isSignUp = false;
       var bd = signUpModel.dob.toString();
       var birthDayDate = bd.split(" ")[0];
       Map<String, String> userAttributes = {
-        "email": signUpModel.email,
-        "given_name": signUpModel.firstName,
-        "family_name": signUpModel.lastName,
+        "email": signUpModel.email.trim(),
+        "given_name": signUpModel.firstName.trim(),
+        "family_name": signUpModel.lastName.trim(),
         "phone_number": '+15559101234',
-        "birthdate": birthDayDate,
+        "birthdate": birthDayDate.trim(),
         "gender": signUpModel.gender.toString(),
       };
       SignUpResult res = await Amplify.Auth.signUp(
@@ -53,16 +54,42 @@ class NetworkService {
     }
   }
 
-  Future<bool> login(String username, String passoword) async {
+  Future<List<dynamic>> login(String username, String passoword) async {
     try {
       print(username);
       print(passoword);
-      SignInResult res =
-          await Amplify.Auth.signIn(username: username, password: passoword);
-      return res.isSignedIn;
+      SignInResult res = await Amplify.Auth.signIn(
+          username: username.trim(), password: passoword.trim());
+      return res.isSignedIn ? (await _getUserIdFromAttributes()) : null;
     } catch (e) {
       print(e);
       return null;
     }
+  }
+
+  Future<List<dynamic>> attempAutoLogin() async {
+    try {
+      final session = await Amplify.Auth.fetchAuthSession();
+      print(session);
+
+      return session.isSignedIn ? (await _getUserIdFromAttributes()) : null;
+    } on AuthException catch (e) {
+      return null;
+    }
+  }
+
+  Future<List<dynamic>> _getUserIdFromAttributes() async {
+    try {
+      final attributes = await Amplify.Auth.fetchUserAttributes();
+      print(attributes);
+      return attributes;
+      // return userId;
+    } on AuthException catch (e) {
+      return null;
+    }
+  }
+
+  Future<void> signOut() async {
+    await Amplify.Auth.signOut();
   }
 }

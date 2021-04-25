@@ -45,4 +45,8 @@ class LoginFailed extends UserState {
   LoginFailed(this.error);
 }
 
-class LoginSuccess extends UserState {}
+class LoginSuccess extends UserState {
+  final UserModel user;
+
+  LoginSuccess(this.user);
+}

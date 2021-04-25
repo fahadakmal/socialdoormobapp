@@ -1,6 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:socialdoormobile/constants/route_constants.dart';
+import 'package:socialdoormobile/cubit/user_cubit.dart';
 import 'package:video_player/video_player.dart';
 
 import '../../constants/videos.dart';
@@ -30,13 +33,15 @@ class _SplashScreenState extends State<SplashScreen> {
     //     // Navigator.pop(contex);
     //   }
     // });
-    Timer(
-        Duration(seconds: 7),
-        () => Navigator.push(
-            context, MaterialPageRoute(builder: (context) => SignInScreen()))
-        // () => Navigator.of(context).pushReplacementNamed( DeliveryInfo.routeName )
+    //
+    // Timer(
+    //     Duration(seconds: 7),
+    //     () => Navigator.push(
+    //         context, MaterialPageRoute(builder: (context) => SignInScreen()))
+    // () => Navigator.of(context).pushReplacementNamed( DeliveryInfo.routeName )
 
-        );
+    // );
+    BlocProvider.of<UserCubit>(context).autoLogin();
   }
 
   @override
@@ -59,10 +64,21 @@ class _SplashScreenState extends State<SplashScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      height: double.infinity,
-      width: double.infinity,
-      child: VideoPlayer(_videoPlayerController),
+    BlocProvider.of<UserCubit>(context).autoLogin();
+    return BlocListener<UserCubit, UserState>(
+      listener: (context, state) {
+        if (state is LoginSuccess) {
+          Navigator.pushNamed(context, HOME_SCREEN_ROUTE);
+        } else if (state is LoginFailed) {
+          Navigator.push(
+              context, MaterialPageRoute(builder: (context) => SignInScreen()));
+        }
+      },
+      child: Container(
+        height: double.infinity,
+        width: double.infinity,
+        child: VideoPlayer(_videoPlayerController),
+      ),
     );
   }
 }

@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:pin_code_fields/pin_code_fields.dart';
@@ -50,12 +52,14 @@ class _ConfirmUserScreenState extends State<ConfirmUserScreen> {
             )),
         body: BlocListener<UserCubit, UserState>(
           listener: (context, state) {
-            if (state is UserConfirmed) {
-              Toast.show(state.successMessage, context,
-                  duration: Toast.LENGTH_SHORT,
+            if (state is LoginSuccess) {
+              Toast.show('You successfully registered', context,
+                  duration: 2,
                   gravity: Toast.CENTER,
                   backgroundColor: Colors.green);
-              Navigator.pop(context);
+              Timer(Duration(seconds: 2), () {
+                Navigator.pop(context);
+              });
             } else if (state is UserConfmationError) {
               Toast.show(state.error, context,
                   duration: Toast.LENGTH_SHORT,
